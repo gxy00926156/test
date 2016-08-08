@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	
+<hibernate-mapping  package="bean">
+
+	<class name="Hospital" table="hospital">
+		<id name="id" type="int">
+			<generator class="increment"></generator>
+		</id>
+		<property name="hospital" type="string"></property>
+		<!-- <many-to-one name="province" class="bean.Province" not-null="true"/> -->
+		<property name="province" type="int"></property>
+		<property name="address" column="address" type="string"/>
+		<property name="level" column="level" type="string" not-null="false" />
+		<property name="goodat" column="goodat" type="string" not-null="false"/>
+		<property name="type" column="type" type="string" not-null="false"/>
+		<property name="rating" column="rating" type="double"/>
+	</class>
+  
+</hibernate-mapping>

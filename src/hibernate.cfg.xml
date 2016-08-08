@@ -1,0 +1,37 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+
+        <!-- 数据库方言 -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://192.168.0.38:3306/bank</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">123456</property>
+ 	 
+ 	   <!--
+	    <property name="dialect">org.hibernate.dialect.Oracle9Dialect</property>
+		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="connection.url">jdbc:oracle:thin:@192.168.2.6:1521:oracledb</property>
+		<property name="connection.username">openlab</property>
+		<property name="connection.password">open123</property>
+		-->	
+      
+	     
+	     
+
+	     <mapping resource="bean/mapping/Doctor.hbm.xml"/>
+	     
+	     <mapping resource="bean/mapping/Hospital.hbm.xml"/>
+
+	     	
+	     <mapping resource="bean/mapping/User.hbm.xml"/>
+	
+	</session-factory>
+</hibernate-configuration>

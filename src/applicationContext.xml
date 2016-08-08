@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- dataSource -->
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+           <value>jdbc:mysql://192.168.0.38:3306/doctor?characterEncoding=utf8</value>
+        </property>
+        <property name="username">
+           <value>root</value>
+        </property>
+        <property name="password">
+           <value>123456</value>
+        </property>
+        
+  </bean>
+	
+	<!-- SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="configLocation"
+			value="classpath:hibernate.cfg.xml"></property>
+		
+	</bean>
+	
+  
+	<!-- transactionManager -->
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- <tx:method name="insert*"/>
+			<tx:method name="update*"/>
+			<tx:method name="*" read-only="true"/> -->
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="allTestServiceMethod" expression="execution(* dao.impl.*.*(..) )"/>
+		<aop:advisor pointcut-ref="allTestServiceMethod" advice-ref="txAdvice" />
+	</aop:config>
+
+	
+	<!-- DAO -->
+	
+	<bean id="doctorDao" class="dao.impl.DoctorDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	
+	<bean id="hospitalDao" class="dao.impl.HospitalDaoImpl">	
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="userDao" class="dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	
+	
+	
+	
+	<!-- service -->
+	
+</beans>
